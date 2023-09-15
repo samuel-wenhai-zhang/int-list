@@ -4,7 +4,7 @@ import java.util.Arrays;
  * An implementation of the List ADT using
  * an integer array.
  * 
- * @author Your Name
+ * @author Samuel Zhang
  */
 
 
@@ -17,7 +17,8 @@ public class IntList {
      * Constructs an empty IntList with an initial capacity of ten
      */
     public IntList() {
-        
+        data = new int[10];
+        size = 0;
     }
 
     /**
@@ -26,7 +27,13 @@ public class IntList {
      * @throws IllegalArgumentException if the specified initial capacity is negative
      */
     public IntList(int initialCapacity) {
-        
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException();
+        }
+        else {
+            data = new int[initialCapacity];
+            size = 0;
+        }
     }
 
     
@@ -36,6 +43,7 @@ public class IntList {
      * @return boolean true
      */
     public boolean add(int n) {
+        add(size, n);
         return true;
     }
 
@@ -47,14 +55,26 @@ public class IntList {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public void add(int index, int n) {
-                
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException(index);
+        }
+        
+        if (size == data.length) {
+            data = Arrays.copyOf(data, size * 2);
+        }
+
+        for (int i = size; i > index; i--) {
+            data[i] = data[i-1];
+        }
+        data[index] = n;
+        size++;
     }
 
     /**
      * Removes all of the elements from this list
      */
     public void clear() { 
-        
+        size = 0;
     }
 
     
@@ -64,6 +84,11 @@ public class IntList {
      * @return true if this list contains the specified integer
      */
     public boolean contains(int n) {
+        for (int i = 0; i < size; i++) {
+            if (data[i] == n) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -75,7 +100,10 @@ public class IntList {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public int get(int index) {
-        return -1;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(index);
+        }
+        return data[index];
     }
 
     
