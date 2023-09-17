@@ -3,14 +3,14 @@ import java.util.Arrays;
 /**
  * An implementation of the List ADT using
  * an integer array.
- * 
+ *
  * @author Samuel Zhang
  */
 
 
 public class IntList {
 
-    private int[] data;  
+    private int[] data;
     private int size;
 
     /**
@@ -36,9 +36,9 @@ public class IntList {
         }
     }
 
-    
-    /** 
-     * Appends the specified integer to the end of this list 
+
+    /**
+     * Appends the specified integer to the end of this list
      * @param n integer to be appended to this list
      * @return boolean true
      */
@@ -47,7 +47,7 @@ public class IntList {
         return true;
     }
 
-    
+
     /**
      * Inserts the specified integer at the specified position in this list
      * @param index index at which the specified integer is to be inserted
@@ -58,7 +58,7 @@ public class IntList {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException(index);
         }
-        
+
         if (size == data.length) {
             data = Arrays.copyOf(data, size * 2);
         }
@@ -73,12 +73,12 @@ public class IntList {
     /**
      * Removes all of the elements from this list
      */
-    public void clear() { 
+    public void clear() {
         size = 0;
     }
 
-    
-    /** 
+
+    /**
      * Returns true if this list contains the specified integer.
      * @param n integer whose presence in this list is to be tested
      * @return true if this list contains the specified integer
@@ -92,8 +92,8 @@ public class IntList {
         return false;
     }
 
-    
-    /** 
+
+    /**
      * Returns the integer at the specified position in this list.
      * @param index index of the integer to return
      * @return the integer at the specified position in this list
@@ -106,44 +106,62 @@ public class IntList {
         return data[index];
     }
 
-    
-    /** 
-     * Returns the index of the first occurrence of the specified integer in this list, or -1 if this list does not contain the integer. 
+
+    /**
+     * Returns the index of the first occurrence of the specified integer in this list, or -1 if this list does not contain the integer.
      * @param n integer to search for
      * @return int the index of the first occurrence of the specified integer in this list, or -1 if this list does not contain the integer
      */
     public int indexOf(int n) {
+        for (int i = 0; i < size; i++) {
+            if (data[i] == n) {
+                return i;
+            }
+        }
         return -1;
     }
 
     /**
-     * Returns the index of the last occurrence of the specified integer in this list, or -1 if this list does not contain the integer. 
+     * Returns the index of the last occurrence of the specified integer in this list, or -1 if this list does not contain the integer.
      * @param n the integer to search for
      * @return the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element
      */
     public int lastIndexOf(int n) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (data[i] == n) {
+                return i;
+            }
+        }
         return -1;
     }
-    
-    /** 
+
+    /**
      * Returns true if this list contains no elements
      * @return true if this list contains no elements
      */
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
-    /** 
+    /**
      * Removes the element at the specified position in this list. Shifts any subsequent elements to the left (subtracts one from their indices). Returns the element that was removed from the list.
      * @param index the index of the element to be removed
      * @return the element previously at the specified position
      * @throws IndexOutOfBoundsException - if the index is out of range
      */
     public int remove(int index) {
-        return -1;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(index);
+        }
+        int element = data[index];
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        size--;
+        return element;
     }
 
-    /** 
+    /**
      * Replaces the integer at the specified position in this list with the specified integer
      * @param index index of the element to replace
      * @param n integer to be stored at the specified position
@@ -151,7 +169,12 @@ public class IntList {
      * @throws IndexOutOfBoundException if the index is out of range
      */
     public int set(int index, int n) {
-        return -1;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(index);
+        }
+        int element = data[index];
+        data[index] = n;
+        return element;
     }
 
     /**
@@ -160,15 +183,30 @@ public class IntList {
      * @return true if the specified IntList is equal to this IntList
      */
     public boolean equals(IntList o) {
-        return false;
+        if (size != o.size) {
+            return false;
+        }
+        else {
+            for (int i = 0; i < size; i++) {
+                if (data[i] != o.data[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-    
-    /** 
+
+    /**
      * Returns the number of elements in this list. If this list contains more than Integer.MAX_VALUE elements, returns Integer.MAX_VALUE.
      * @return the number of elements in this list
      */
     public int size() {
-        return -1;
+        if (size < 0) {
+            return Integer.MAX_VALUE;
+        }
+        else {
+            return size;
+        }
     }
 
     /**
@@ -176,15 +214,28 @@ public class IntList {
      * @return an array containing the integers of this list
      */
     public int[] toArray() {
-        return null;
+        return Arrays.copyOf(data, size);
     }
-    
+
     /**
      * Returns a string representation of this IntList. The string representation consists of a list of the integers in the order they are indexed, enclosed in square brackets ("[]")
      * @return a String representation of this IntList.
      */
     public String toString() {
-        return "";
+        String result = "[";
+        for (int i = 0; i < size; i++) {
+            result += data[i];
+            if (i != size - 1) {
+                result += ", ";
+            }
+        }
+        result += "]";
+        return result;
+    }
+
+    public static void main(String[] args) {
+        IntList test = new IntList();
+        System.out.println(test);
     }
 
 
