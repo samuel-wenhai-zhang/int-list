@@ -67,7 +67,9 @@ public class IntList {
             data[i] = data[i-1];
         }
         data[index] = n;
-        size++;
+        if (size != Integer.MAX_VALUE) {
+            size++;
+        }
     }
 
     /**
@@ -178,7 +180,7 @@ public class IntList {
     }
 
     /**
-     * Compares the specified IntList for equality.  Returns true if and only if both lists have the same size and all corresponding pairs of integers in the tow lists are equal.
+     * Compares the specified IntList for equality.  Returns true if and only if both lists have the same size and all corresponding pairs of integers in the two lists are equal.
      * @param o the other IntList to be compared for equality
      * @return true if the specified IntList is equal to this IntList
      */
@@ -201,12 +203,7 @@ public class IntList {
      * @return the number of elements in this list
      */
     public int size() {
-        if (size < 0) {
-            return Integer.MAX_VALUE;
-        }
-        else {
-            return size;
-        }
+        return size;
     }
 
     /**
@@ -232,11 +229,4 @@ public class IntList {
         result += "]";
         return result;
     }
-
-    public static void main(String[] args) {
-        IntList test = new IntList();
-        System.out.println(test);
-    }
-
-
 }
