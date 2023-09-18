@@ -8,7 +8,17 @@
       "output": "",
       "comparison": "exact",
       "timeout": 10,
-      "points": null
+      "points": 10
+    },
+    {
+      "name": "Test GenericList",
+      "setup": "javac -cp \"lib/junit-platform-console-standalone-1.10.0.jar\" GenericList.java GenericListTest.java  ",
+      "run": "java -jar \"lib/junit-platform-console-standalone-1.10.0.jar\" --class-path . --scan-class-path --include-classname GenericListTest",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 10
     }
   ]
 }
