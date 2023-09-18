@@ -86,12 +86,7 @@ public class GenericList<E> {
      * @return true if this list contains the specified element
      */
     public boolean contains(E e) {
-        for (int i = 0; i < size; i++) {
-            if (data[i].equals(e)) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(e) != -1;
     }
 
 
@@ -116,7 +111,12 @@ public class GenericList<E> {
      */
     public int indexOf(E e) {
         for (int i = 0; i < size; i++) {
-            if (data[i].equals(e)) {
+            if (e == null) {
+                if (data[i] == null) {
+                    return i;
+                }
+            }
+            else if (e.equals(data[i])) {
                 return i;
             }
         }
@@ -130,7 +130,12 @@ public class GenericList<E> {
      */
     public int lastIndexOf(E e) {
         for (int i = size - 1; i >= 0; i--) {
-            if (data[i].equals(e)) {
+            if (e == null) {
+                if (data[i] == null) {
+                    return i;
+                }
+            }
+            else if (e.equals(data[i])) {
                 return i;
             }
         }
@@ -161,6 +166,23 @@ public class GenericList<E> {
         }
         size--;
         return element;
+    }
+
+    /**
+     * Removes the element at the specified position in this list. Shifts any subsequent elements to the left (subtracts one from their indices). Returns the element that was removed from the list.
+     * @param e element to be removed from this list, if present
+     * @return true if this list contained the specified element
+     * @throws IndexOutOfBoundsException - if the index is out of range
+     */
+    public boolean remove(E e) {
+        int index = indexOf(e);
+        if (index != -1) {
+            remove(index);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -207,16 +229,16 @@ public class GenericList<E> {
     }
 
     /**
-     * Returns an array containing all of the integers in this list in proper sequence.
-     * @return an array containing the integers of this list
+     * Returns an array containing all of the elements in this list in proper sequence.
+     * @return an array containing the elements of this list
      */
-    public int[] toArray() {
+    public E[] toArray() {
         return Arrays.copyOf(data, size);
     }
 
     /**
-     * Returns a string representation of this IntList. The string representation consists of a list of the integers in the order they are indexed, enclosed in square brackets ("[]")
-     * @return a String representation of this IntList.
+     * Returns a string representation of this GenericList. The string representation consists of a list of the elements in the order they are indexed, enclosed in square brackets ("[]")
+     * @return a String representation of this GenericList.
      */
     public String toString() {
         String result = "[";
@@ -229,11 +251,4 @@ public class GenericList<E> {
         result += "]";
         return result;
     }
-
-    public static void main(String[] args) {
-        IntList test = new IntList();
-        System.out.println(test);
-    }
-
-
 }

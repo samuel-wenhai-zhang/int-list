@@ -86,12 +86,7 @@ public class IntList {
      * @return true if this list contains the specified integer
      */
     public boolean contains(int n) {
-        for (int i = 0; i < size; i++) {
-            if (data[i] == n) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(n) != -1;
     }
 
 
