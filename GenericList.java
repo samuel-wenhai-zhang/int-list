@@ -212,7 +212,12 @@ public class GenericList<E> {
         }
         else {
             for (int i = 0; i < size; i++) {
-                if (!data[i].equals(o.data[i])) {
+                if (data[i] == null) {
+                    if (o.data[i] != null) {
+                        return false;
+                    }
+                }
+                else if (!data[i].equals(o.data[i])) {
                     return false;
                 }
             }
