@@ -63,9 +63,13 @@ public class GenericList<E> implements Iterable<E>{
 
             @Override
             public void remove() {
+                if (currMods != numMods) {
+                    throw new ConcurrentModificationException();
+                }
                 if (canRemove) {
                     GenericList.this.remove(--index);
                     canRemove = false;
+                    currMods++;
                 } else {
                     throw new IllegalStateException();
                 }
