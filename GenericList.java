@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 /**
  * An implementation of the List ADT using
@@ -8,10 +10,11 @@ import java.util.Arrays;
  */
 
 
-public class GenericList<E> {
+public class GenericList<E> implements Iterable<E>{
 
     private E[] data;
     private int size;
+    private int numMods;
 
     /**
      * Constructs an empty GenericList with an initial capacity of ten
@@ -19,6 +22,7 @@ public class GenericList<E> {
     public GenericList() {
         data = (E[]) new Object[10];
         size = 0;
+        numMods = 0;
     }
 
     /**
@@ -33,7 +37,40 @@ public class GenericList<E> {
         else {
             data = (E[]) new Object[initialCapacity];
             size = 0;
+            numMods = 0;
         }
+    }
+
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            int index = 0;
+            boolean canRemove = false;
+            int currMods = numMods;
+            
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public E next() {
+                if (currMods != numMods) {
+                    throw new ConcurrentModificationException();
+                }
+                canRemove = true;
+                return get(index++);
+            }
+
+            @Override
+            public void remove() {
+                if (canRemove) {
+                    GenericList.this.remove(--index);
+                    canRemove = false;
+                } else {
+                    throw new IllegalStateException();
+                }
+            }
+        };
     }
 
 
@@ -44,6 +81,7 @@ public class GenericList<E> {
      */
     public boolean add(E e) {
         add(size, e);
+        numMods++;
         return true;
     }
 
@@ -67,6 +105,7 @@ public class GenericList<E> {
             data[i] = data[i-1];
         }
         data[index] = e;
+        numMods++;
         if (size != Integer.MAX_VALUE) {
             size++;
         }
@@ -77,6 +116,7 @@ public class GenericList<E> {
      */
     public void clear() {
         size = 0;
+        numMods++;
     }
 
 
@@ -165,6 +205,7 @@ public class GenericList<E> {
             data[i] = data[i + 1];
         }
         size--;
+        numMods++;
         return element;
     }
 

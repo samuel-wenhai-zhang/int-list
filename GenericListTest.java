@@ -207,7 +207,7 @@ public class GenericListTest {
                 list.add(words[i]);
         }
         
-        assertEquals(true, list.remove("test"));
+        assertEquals(true, list.remove(new String ("test")));
         assertEquals(12, list.size());
         assertEquals(true, list.remove("hornet"));
         assertEquals(11, list.size());
